@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import pentwelfareapp.com.pent.welfare.app.Dto.MemberDto;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class Member {
     private Date rolesDate;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "member_id")
-    private List<Contribution> contributions;
+    private List<Contribution> contributions = new ArrayList<>();
 
     public void addContribution(Contribution contribution){
         contributions.add(contribution);

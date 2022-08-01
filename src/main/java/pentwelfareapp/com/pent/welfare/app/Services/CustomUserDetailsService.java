@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import pentwelfareapp.com.pent.welfare.app.Entities.Role;
 import pentwelfareapp.com.pent.welfare.app.Entities.User;
 import pentwelfareapp.com.pent.welfare.app.Repositories.UserRepository;
-import org.springframework.security.core.userdetails.*;
 
 import java.util.Collection;
 import java.util.Set;

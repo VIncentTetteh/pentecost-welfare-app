@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pentwelfareapp.com.pent.welfare.app.Dto.ContributionDto;
 import pentwelfareapp.com.pent.welfare.app.Entities.Contribution;
+import pentwelfareapp.com.pent.welfare.app.Exceptions.ContributionNotFoundException;
 import pentwelfareapp.com.pent.welfare.app.Services.ContributionService;
 
 import java.util.List;
@@ -36,20 +37,20 @@ public class ContributionController {
     }
 
     @GetMapping(value = "{id}")
-    public ResponseEntity<ContributionDto> getContribution(@PathVariable final Long id){
+    public ResponseEntity<ContributionDto> getContribution(@PathVariable final Long id) throws ContributionNotFoundException {
         Contribution contribution = contributionService.getContribution(id);
         return new ResponseEntity<>(ContributionDto.from(contribution),HttpStatus.OK);
     }
 
     @DeleteMapping(value ="{id}")
-    public ResponseEntity<ContributionDto> deleteContribution(@PathVariable final Long id){
+    public ResponseEntity<ContributionDto> deleteContribution(@PathVariable final Long id) throws ContributionNotFoundException {
         Contribution contribution = contributionService.deleteContribution(id);
         return new ResponseEntity<>(ContributionDto.from(contribution),HttpStatus.OK);
     }
 
     @PutMapping(value = "{id}")
     public ResponseEntity<ContributionDto> editContribution(@PathVariable final Long id,
-                                                            @RequestBody ContributionDto contributionDto){
+                                                            @RequestBody ContributionDto contributionDto) throws ContributionNotFoundException {
         Contribution editedContribution = contributionService
                 .editContribution(id, Contribution.from(contributionDto));
         return new ResponseEntity<>(ContributionDto.from(editedContribution),HttpStatus.OK);

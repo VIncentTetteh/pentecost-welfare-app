@@ -29,11 +29,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeHttpRequests()
-                .antMatchers(HttpMethod.GET,"/api/v1/**")
-                .permitAll()
-//                .antMatchers("/swagger-ui/**")
-//                .permitAll()
-                .antMatchers("/api/v1/auth/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/swagger-ui/**").permitAll()
+                .antMatchers("/api/auth/signin","/api/auth/signup").permitAll()
+                .and()
+                .authorizeHttpRequests()
+                .antMatchers("/api/v1/**").authenticated()
                 .anyRequest()
                 .authenticated()
                 .and().httpBasic();

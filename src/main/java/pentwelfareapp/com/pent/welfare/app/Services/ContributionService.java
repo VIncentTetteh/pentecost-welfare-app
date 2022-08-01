@@ -26,19 +26,19 @@ public class ContributionService {
     public List<Contribution> getContributions(){
         return contributionRepository.findAll();
     }
-    public Contribution getContribution(Long id){
+    public Contribution getContribution(Long id) throws ContributionNotFoundException {
         return contributionRepository.findById(id).orElseThrow(() ->
-                new ContributionNotFoundException(id));
+                new ContributionNotFoundException("Contribution with id " + id + " not found"));
     }
 
-    public Contribution deleteContribution(Long id){
+    public Contribution deleteContribution(Long id) throws ContributionNotFoundException {
         Contribution contribution = getContribution(id);
         contributionRepository.delete(contribution);
         return contribution;
     }
 
     @Transactional
-    public Contribution editContribution(Long id, Contribution contribution){
+    public Contribution editContribution(Long id, Contribution contribution) throws ContributionNotFoundException {
         Contribution contributionToEdit = getContribution(id);
         contributionToEdit.setContributionDate(contribution.getContributionDate());
         contributionToEdit.setAmount(contribution.getAmount());

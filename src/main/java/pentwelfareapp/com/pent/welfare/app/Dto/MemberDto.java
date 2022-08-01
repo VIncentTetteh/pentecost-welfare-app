@@ -5,10 +5,7 @@ import lombok.Data;
 
 import pentwelfareapp.com.pent.welfare.app.Entities.Member;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Data
@@ -17,11 +14,10 @@ public class MemberDto {
     private String name;
     private String address;
     private String phoneNumber;
+    private List<ContributionDto> contributionDos = new ArrayList<>();
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date rolesDate;
-
-    private List<ContributionDto> contributionDtos = new ArrayList<>();
 
     public static MemberDto from(Member member){
         MemberDto  memberDto = new MemberDto();
@@ -30,8 +26,10 @@ public class MemberDto {
         memberDto.setName(member.getName());
         memberDto.setRolesDate(member.getRolesDate());
         memberDto.setPhoneNumber(member.getPhoneNumber());
-        memberDto.setContributionDtos(member.getContributions().stream().map(ContributionDto::from)
-                .collect(Collectors.toList()));
+        if(Objects.nonNull(memberDto.contributionDos)){
+            memberDto.setContributionDos(member.getContributions().stream().map(ContributionDto::from)
+                    .collect(Collectors.toList()));
+        }
         return memberDto;
 
     }

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import pentwelfareapp.com.pent.welfare.app.Entities.Contribution;
 import pentwelfareapp.com.pent.welfare.app.Entities.Member;
 import pentwelfareapp.com.pent.welfare.app.Exceptions.ContributionAlreadyAssignException;
+import pentwelfareapp.com.pent.welfare.app.Exceptions.ContributionNotFoundException;
 import pentwelfareapp.com.pent.welfare.app.Exceptions.MemberNotFoundException;
 import pentwelfareapp.com.pent.welfare.app.Repositories.ContributionRepository;
 import pentwelfareapp.com.pent.welfare.app.Repositories.MemberRepository;
@@ -32,19 +33,19 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
-    public Member getMember(Long id){
+    public Member getMember(Long id) throws MemberNotFoundException {
         return memberRepository.findById(id).orElseThrow( () ->
-                new MemberNotFoundException(id));
+                new MemberNotFoundException("Member with ID :" + id + "not found"));
     }
 
-    public Member deleteMember(Long id){
+    public Member deleteMember(Long id) throws MemberNotFoundException {
         Member member = getMember(id);
         memberRepository.delete(member);
         return member;
     }
 
     @Transactional
-    public Member editMember(Long id,Member member){
+    public Member editMember(Long id,Member member) throws MemberNotFoundException {
         Member memberToEdit = getMember(id);
         memberToEdit.setName(member.getName());
         memberToEdit.setAddress(member.getAddress());
@@ -54,19 +55,21 @@ public class MemberService {
     }
 
     @Transactional
-    public Member addContributionToMember(Long memberId, Long contributionId){
+    public Member addContributionToMember(Long memberId, Long contributionId) throws ContributionAlreadyAssignException, MemberNotFoundException, ContributionNotFoundException {
         Member member = getMember(memberId);
         Contribution contribution = contributionService.getContribution(contributionId);
         if(Objects.nonNull(contribution.getMember())){
-            throw new ContributionAlreadyAssignException(contributionId,contribution.getMember().getId());
+            throw new ContributionAlreadyAssignException("contribution with id contributionId,"+ contributionId +
+                    " is already assigned to member:"+ contribution.getMember().getId() );
         }
         member.addContribution(contribution);
+        contribution.setMember(member);
         return member;
 
     }
 
     @Transactional
-    public Member removeContributionFromMember(Long memberId,Long contributionId){
+    public Member removeContributionFromMember(Long memberId,Long contributionId) throws MemberNotFoundException, ContributionNotFoundException {
         Member member = getMember(memberId);
         Contribution contribution = contributionService.getContribution(contributionId);
         member.removeContribution(contribution);

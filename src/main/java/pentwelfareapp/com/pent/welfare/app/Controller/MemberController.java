@@ -8,6 +8,9 @@ import pentwelfareapp.com.pent.welfare.app.Dto.ContributionDto;
 import pentwelfareapp.com.pent.welfare.app.Dto.MemberDto;
 import pentwelfareapp.com.pent.welfare.app.Entities.Contribution;
 import pentwelfareapp.com.pent.welfare.app.Entities.Member;
+import pentwelfareapp.com.pent.welfare.app.Exceptions.ContributionAlreadyAssignException;
+import pentwelfareapp.com.pent.welfare.app.Exceptions.ContributionNotFoundException;
+import pentwelfareapp.com.pent.welfare.app.Exceptions.MemberNotFoundException;
 import pentwelfareapp.com.pent.welfare.app.Services.MemberService;
 
 import java.util.List;
@@ -39,20 +42,20 @@ public class MemberController {
     }
 
     @GetMapping(value = "{id}")
-    public ResponseEntity<MemberDto> getMember(@PathVariable final Long id){
+    public ResponseEntity<MemberDto> getMember(@PathVariable final Long id) throws MemberNotFoundException {
         Member member = memberService.getMember(id);
         return new ResponseEntity<>(MemberDto.from(member),HttpStatus.OK);
     }
 
     @DeleteMapping(value ="{id}")
-    public ResponseEntity<MemberDto> deleteMember(@PathVariable final Long id){
+    public ResponseEntity<MemberDto> deleteMember(@PathVariable final Long id) throws MemberNotFoundException {
         Member member = memberService.deleteMember(id);
         return new ResponseEntity<>(MemberDto.from(member),HttpStatus.OK);
     }
 
     @PutMapping(value = "{id}")
     public ResponseEntity<MemberDto> editMember(@PathVariable final Long id,
-                                                            @RequestBody MemberDto memberDto){
+                                                            @RequestBody MemberDto memberDto) throws MemberNotFoundException {
         Member editedMember = memberService
                 .editMember(id, Member.from(memberDto));
         return new ResponseEntity<>(MemberDto.from(editedMember),HttpStatus.OK);
@@ -60,14 +63,14 @@ public class MemberController {
 
     @PostMapping(value = "{memberId}/contributions/{contributionId}/add")
     public ResponseEntity<MemberDto> addContributionToMember(@PathVariable final Long memberId,
-                                                             @PathVariable final Long contributionId){
+                                                             @PathVariable final Long contributionId) throws ContributionAlreadyAssignException, ContributionNotFoundException, MemberNotFoundException {
         Member member = memberService.addContributionToMember(memberId,contributionId);
         return new ResponseEntity<>(MemberDto.from(member), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "{memberId}/contributions/{contributionId}/remove")
     public ResponseEntity<MemberDto> removeContributionFromMember(@PathVariable final Long memberId,
-                                                             @PathVariable final Long contributionId){
+                                                             @PathVariable final Long contributionId) throws ContributionNotFoundException, MemberNotFoundException {
         Member member = memberService.removeContributionFromMember(memberId,contributionId);
         return new ResponseEntity<>(MemberDto.from(member), HttpStatus.OK);
     }
