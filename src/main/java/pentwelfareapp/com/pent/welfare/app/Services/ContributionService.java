@@ -8,6 +8,7 @@ import pentwelfareapp.com.pent.welfare.app.Repositories.ContributionRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ContributionService {
@@ -29,6 +30,10 @@ public class ContributionService {
     public Contribution getContribution(Long id) throws ContributionNotFoundException {
         return contributionRepository.findById(id).orElseThrow(() ->
                 new ContributionNotFoundException("Contribution with id " + id + " not found"));
+    }
+
+    public List<Contribution> getContributionByType(String contributionType){
+        return contributionRepository.findContributionByContributionType(contributionType);
     }
 
     public Contribution deleteContribution(Long id) throws ContributionNotFoundException {

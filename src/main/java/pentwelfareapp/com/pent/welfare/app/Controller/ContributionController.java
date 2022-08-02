@@ -28,6 +28,14 @@ public class ContributionController {
         return new ResponseEntity<>(ContributionDto.from(contribution), HttpStatus.OK);
     }
 
+    @GetMapping("/type/{contributionType}")
+    public ResponseEntity<List<ContributionDto>> getContributionByType(@PathVariable String contributionType){
+        List<Contribution> contributions = contributionService.getContributionByType(contributionType);
+        List<ContributionDto> contributionDtos = contributions.stream().map(ContributionDto::from)
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(contributionDtos,HttpStatus.OK);
+    }
+
     @GetMapping
     public ResponseEntity<List<ContributionDto>> getContributions(){
         List<Contribution> contributions = contributionService.getContributions();

@@ -16,6 +16,7 @@ public class Contribution {
     private float amount;
     private String contributionType;
     private Date contributionDate;
+    private String comment;
     @ManyToOne
     private Member member;
 
@@ -23,6 +24,7 @@ public class Contribution {
         Contribution contribution = new Contribution();
         contribution.setAmount(contributionDto.getAmount());
         contribution.setContributionType(contributionDto.getContributionType());
+        contribution.setComment(contributionDto.getComment());
         contribution.setContributionDate(contributionDto.getContributionDate());
         return contribution;
     }

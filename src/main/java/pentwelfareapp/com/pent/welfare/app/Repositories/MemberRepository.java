@@ -6,4 +6,5 @@ import pentwelfareapp.com.pent.welfare.app.Entities.Member;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member,Long> {
+
 }
