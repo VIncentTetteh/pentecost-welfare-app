@@ -23,7 +23,7 @@ public class PentWelfareAppApplication {
 				String[] origins = {
 						"*"
 				};
-				registry.addMapping("/**").allowedOrigins(origins).allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH");
+				registry.addMapping("/api/**").allowedOrigins(origins).allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH");
 			}
 		};
 	}
