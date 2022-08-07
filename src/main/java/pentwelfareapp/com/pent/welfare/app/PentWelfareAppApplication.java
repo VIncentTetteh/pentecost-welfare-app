@@ -15,18 +15,18 @@ public class PentWelfareAppApplication {
 		SpringApplication.run(PentWelfareAppApplication.class, args);
 	}
 
-	@Bean
-	public WebMvcConfigurer corsConfigurer() {
-		return new WebMvcConfigurer() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				String[] origins = {
-						"*"
-				};
-				registry.addMapping("/api/**").allowedOrigins(origins).allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH");
-			}
-		};
-	}
+//	@Bean
+//	public WebMvcConfigurer corsConfigurer() {
+//		return new WebMvcConfigurer() {
+//			@Override
+//			public void addCorsMappings(CorsRegistry registry) {
+//				String[] origins = {
+//						"*"
+//				};
+//				registry.addMapping("/api/**").allowedOrigins(origins).allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH");
+//			}
+//		};
+//	}
 
 
 }
