@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/contribution")
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 public class ContributionController {
     private final ContributionService contributionService;
 
