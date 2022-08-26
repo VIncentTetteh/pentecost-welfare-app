@@ -8,7 +8,6 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
-@EnableJpaRepositories
 public class PentWelfareAppApplication {
 
 	public static void main(String[] args) {
