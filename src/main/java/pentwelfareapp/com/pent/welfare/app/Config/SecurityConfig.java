@@ -30,14 +30,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeHttpRequests()
-                .antMatchers("/api/").permitAll();
-//                .antMatchers("/api/auth/signin","/api/auth/signup").permitAll();
-//                .and()
-//                .authorizeHttpRequests()
-//                .antMatchers("/api/v1/**").authenticated()
-//                .anyRequest()
-//                .authenticated()
-//                .and().httpBasic();
+                .antMatchers("/api/v1/").permitAll()
+                .anyRequest()
+                .authenticated()
+                .and().httpBasic();
         http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
     }
 
